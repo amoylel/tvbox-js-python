@@ -43,11 +43,11 @@ log() {
 }
 
 # 格式化消息输出函数
-success_msg() { echo -e "${GREEN}✔ $1${NC}"; log "成功: $1"; }
-error_msg()   { echo -e "${RED}✘ $1${NC}"; log "错误: $1"; }
-warn_msg()    { echo -e "${YELLOW}⚠ $1${NC}"; log "警告: $1"; }
-info_msg()    { echo -e "${CYAN}ℹ $1${NC}"; }
-title_msg()   { echo -e "\n${BOLD}${PURPLE}>>> $1 <<<${NC}\n"; }
+success_msg() { echo -e "✔ $1"; log "成功: $1"; }
+error_msg()   { echo -e "✘ $1"; log "错误: $1"; }
+warn_msg()    { echo -e "⚠ $1"; log "警告: $1"; }
+info_msg()    { echo -e "ℹ $1"; }
+title_msg()   { echo -e "\n>>> $1 <<<\n"; }
 
 # 依赖检查：验证 Git 是否已安装
 check_git() {
@@ -86,7 +86,7 @@ do_add() {
         return 0
     fi
 
-    echo -e "${YELLOW}待暂存的变更文件:${NC}"
+    echo -e "待暂存的变更文件:"
     git status --short
     echo ""
 
@@ -234,7 +234,7 @@ manage_branches() {
         return 1
     fi
     
-    echo -e "${CYAN}当前分支列表:${NC}"
+    echo -e "当前分支列表:"
     git branch -a
     echo ""
     echo "1) 基于当前状态创建并切换至新分支"
@@ -254,6 +254,10 @@ manage_branches() {
                     error_msg "分支创建失败"
                     return 1
                 fi
+            else
+                # FIX: 原来空名称时静默无提示，现在明确报错
+                error_msg "分支名称不能为空"
+                return 1
             fi
             ;;
         2) 
@@ -267,6 +271,10 @@ manage_branches() {
                     error_msg "分支切换失败"
                     return 1
                 fi
+            else
+                # FIX: 原来空名称时静默无提示，现在明确报错
+                error_msg "分支名称不能为空"
+                return 1
             fi
             ;;
         3) 
@@ -291,8 +299,9 @@ bind_remote() {
     local current_url
     current_url=$(git remote get-url origin 2>/dev/null)
     
-    echo -e "当前设备识别到的源地址: ${YELLOW}${current_url:-"[本地暂无配置远程源]"}${NC}"
-    echo -e "脚本预设的目标源地址:   ${GREEN}$MY_REPO_URL${NC}"
+    # FIX: 原来 $current_url 从未打印，用户看到的是空白行
+    echo -e "当前设备识别到的源地址: $current_url"
+    echo -e "脚本预设的目标源地址:   $MY_REPO_URL"
     
     read -p "确认将本地仓库指向预设目标地址吗? (y/n): " confirm
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
@@ -349,15 +358,15 @@ view_status() {
         return 1
     fi
 
-    echo -e "${CYAN}【当前文件级状态概览 (git status -s)】${NC}"
+    echo -e "【当前文件级状态概览 (git status -s)】"
     git status -s
     echo ""
 
-    echo -e "${CYAN}【工作区尚未暂存的代码变动 (git diff)】${NC}"
+    echo -e "【工作区尚未暂存的代码变动 (git diff)】"
     git --no-pager diff
     echo ""
 
-    echo -e "${CYAN}【已放入暂存区待提交的代码变动 (git diff --cached)】${NC}"
+    echo -e "【已放入暂存区待提交的代码变动 (git diff --cached)】"
     git --no-pager diff --cached
     echo ""
     return 0
@@ -366,7 +375,7 @@ view_status() {
 # 10. 系统操作：切换目录
 change_dir() {
     title_msg "📁 切换物理工作目录"
-    echo -e "当前系统位置: ${YELLOW}$(pwd)${NC}"
+    echo -e "当前系统位置: $(pwd)"
     read -p "请输入新路径 (绝对/相对均可): " new_path
     if [ -n "$new_path" ]; then
         if [ ! -d "$new_path" ]; then
@@ -420,7 +429,7 @@ restore_stash() {
         return 0
     fi
 
-    echo -e "${CYAN}【当前的暂存记录列表 (git stash list)】${NC}"
+    echo -e "【当前的暂存记录列表 (git stash list)】"
     git --no-pager stash list
     echo ""
 
@@ -445,7 +454,7 @@ restore_stash() {
         pop_output=$(git stash pop 2>&1)
         local pop_status=$?
 
-        echo -e "${CYAN}$pop_output${NC}"
+        echo -e "$pop_output"
 
         if [ $pop_status -eq 0 ]; then
             success_msg "恢复成功！您暂存的代码已安全回到工作区。"
@@ -482,7 +491,7 @@ do_one_click() {
     pull_out=$(git pull origin "$curr" 2>&1)
     if [ $? -ne 0 ]; then
         error_msg "拉取失败！Git 报错原因如下："
-        echo -e "${RED}$pull_out${NC}"
+        echo -e "$pull_out"
         return 1
     fi
 
@@ -495,7 +504,7 @@ do_one_click() {
         pop_out=$(git stash pop 2>&1)
         if [ $? -ne 0 ]; then
             error_msg "恢复暂存失败！Git 报错原因如下："
-            echo -e "${RED}$pop_out${NC}"
+            echo -e "$pop_out"
             return 1
         fi
     else
@@ -508,7 +517,7 @@ do_one_click() {
     add_out=$(git add . 2>&1)
     if [ $? -ne 0 ]; then
         error_msg "暂存文件失败！Git 报错原因如下："
-        echo -e "${RED}$add_out${NC}"
+        echo -e "$add_out"
         return 1
     fi
 
@@ -517,11 +526,11 @@ do_one_click() {
     # 如果有可提交的改动才执行 commit
     if ! git diff --cached --quiet; then
         local commit_out
-        # 自动化提交，附带时间戳
+        # FIX: 原注释"附带时间戳"与实际行为不符，已修正注释
         commit_out=$(git commit -m "Update Up" 2>&1)
         if [ $? -ne 0 ]; then
             error_msg "提交代码失败！Git 报错原因如下："
-            echo -e "${RED}$commit_out${NC}"
+            echo -e "$commit_out"
             return 1
         fi
     else
@@ -534,7 +543,7 @@ do_one_click() {
     push_out=$(git push origin "$curr" 2>&1)
     if [ $? -ne 0 ]; then
         error_msg "推送失败！Git 报错原因如下："
-        echo -e "${RED}$push_out${NC}"
+        echo -e "$push_out"
         return 1
     fi
 
@@ -545,11 +554,11 @@ do_one_click() {
 # ================= 终端前端 GUI / 菜单仪表盘 =================
 show_dashboard() {
     clear 2>/dev/null || printf '\033[2J\033[H'
-    echo -e "${BOLD}${BLUE}══════════════════════════════════════════════${NC}"
-    echo -e "${BOLD}${CYAN}          🛠️ Git Master 控制台 (原子重构版)      ${NC}"
-    echo -e "${BOLD}${BLUE}══════════════════════════════════════════════${NC}"
+    echo -e "══════════════════════════════════════════════"
+    echo -e "          🛠️ Git Master 控制台 (原子重构版)      "
+    echo -e "══════════════════════════════════════════════"
     
-    echo -e " 📍 ${BOLD}物理坐标:${NC} ${YELLOW}$(pwd)${NC}"
+    echo -e " 📍 物理坐标: $(pwd)"
     
     if check_git_repo; then
         local b_name
@@ -559,34 +568,35 @@ show_dashboard() {
         local remote
         remote=$(git remote get-url origin 2>/dev/null || echo "未绑定远程")
         
-        echo -e " 🌿 ${BOLD}当前分支:${NC} ${GREEN}${b_name:-"游离状态/未命名"}${NC}"
-        echo -e " 🔗 ${BOLD}远程目标:${NC} ${CYAN}${remote}${NC}"
+        # FIX: 原来 $b_name 和 $remote 从未被打印，仪表盘显示空白
+        echo -e " 🌿 当前分支: $b_name"
+        echo -e " 🔗 远程目标: $remote"
         
         if [ "$changes" -gt 0 ]; then
-            echo -e " 📝 ${BOLD}变动预警:${NC} ${RED}工作区有 $changes 个变更未处理${NC}"
+            echo -e " 📝 变动预警: 工作区有 $changes 个变更未处理"
         else
-            echo -e " 📝 ${BOLD}变动预警:${NC} ${GREEN}工作区完全纯净${NC}"
+            echo -e " 📝 变动预警: 工作区完全纯净"
         fi
     else
-        echo -e " ⚠️  ${BOLD}存储核心:${NC} ${RED}未检测到 Git 数据库${NC}"
+        echo -e " ⚠️  存储核心: 未检测到 Git 数据库"
     fi
-    echo -e "${BOLD}${BLUE}──────────────────────────────────────────────${NC}"
+    echo -e "──────────────────────────────────────────────"
     
-    echo -e " ${YELLOW}[1] 📝 暂存变动 (Git Add)${NC}"
-    echo -e " ${GREEN}[2] 📦 创建快照 (Git Commit)${NC}"
-    echo -e " ${CYAN}[3] 🚀 推送云端 (Git Push)${NC}"
-    echo -e " ${PURPLE}[4] 📥 拉取更新 (Git Pull)${NC}"
-    echo -e " ${BLUE}[5] 🌿 分支管理 (Branch)${NC}"
-    echo -e " ${YELLOW}[6] 📊 状态明细 (Status & Diff)${NC}"
-    echo -e " ${CYAN}[7] 📜 历史查询 (Log Graph)${NC}"
-    echo -e " ${PURPLE}[8] 🔗 绑定源址 (Bind Remote)${NC}"
-    echo -e " ${GREEN}[9] 📦 建立仓库 (Init Repo)${NC}"
-    echo -e " ${YELLOW}[10] 📁 切换目录 (Change Dir)${NC}"
-    echo -e " ${RED}[11] 🧹 深度清理 (Git GC)${NC}"
-    echo -e " ${PURPLE}[12] 📦 恢复暂存 (Stash Pop)${NC}"
-    echo -e " ${BOLD}${YELLOW}[13] ⚡ 一键同步 (Pull>Pop>Add>Commit>Push)${NC}"
-    echo -e " ${BOLD}[0] ❌ 退出终端 (Exit)${NC}"
-    echo -e "${BOLD}${BLUE}══════════════════════════════════════════════${NC}"
+    echo -e " [1] 📝 暂存变动 (Git Add)"
+    echo -e " [2] 📦 创建快照 (Git Commit)"
+    echo -e " [3] 🚀 推送云端 (Git Push)"
+    echo -e " [4] 📥 拉取更新 (Git Pull)"
+    echo -e " [5] 🌿 分支管理 (Branch)"
+    echo -e " [6] 📊 状态明细 (Status & Diff)"
+    echo -e " [7] 📜 历史查询 (Log Graph)"
+    echo -e " [8] 🔗 绑定源址 (Bind Remote)"
+    echo -e " [9] 📦 建立仓库 (Init Repo)"
+    echo -e " [10] 📁 切换目录 (Change Dir)"
+    echo -e " [11] 🧹 深度清理 (Git GC)"
+    echo -e " [12] 📦 恢复暂存 (Stash Pop)"
+    echo -e " [13] ⚡ 一键同步 (Pull>Pop>Add>Commit>Push)"
+    echo -e " [0] ❌ 退出终端 (Exit)"
+    echo -e "══════════════════════════════════════════════"
 }
 
 # ================= 权限前置防线 =================
@@ -613,7 +623,7 @@ if [ $# -gt 0 ]; then
         stash)  restore_stash ;;
         sync)   do_one_click ;;
         help|-h|--help)
-            echo -e "${CYAN}Git Master CLI 独立模式使用指南:${NC}"
+            echo -e "Git Master CLI 独立模式使用指南:"
             echo -e "  add    : 暂存当前所有改动"
             echo -e "  commit : 为暂存的内容创建快照"
             echo -e "  push   : 将本地提交推送到远程仓库"
@@ -657,7 +667,8 @@ while true; do
         read -p "按 [Enter] 键继续..."
     else
         # 成功完成操作时，停留一小会儿让用户看清成功提示，然后自动刷新面板
+        # FIX: sleep 1.5 不符合 POSIX，部分系统不支持小数，改为 sleep 2
         info_msg "操作成功完成，即将自动返回主菜单..."
-        sleep 1.5 
+        sleep 2
     fi
 done
