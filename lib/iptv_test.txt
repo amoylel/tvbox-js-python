@@ -1,6 +1,6 @@
 
 央视频道,#genre#
-CCTV-4K,https://live-play-hls.cctvnews.cctv.com/CCTVChannel/channel_cctv4k_mbd.m3u8?auth_key=1783443600-1-b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c-42fe8a0bf78a97203fb9e5dd54e16708&yid=b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c$LR•IPV4•4『线路1』
+CCTV-4K,https://live-play-hls.cctvnews.cctv.com/CCTVChannel/channel_cctv4k_mbd.m3u8?auth_key=1783447200-1-b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c-a1b67b01b99c5cb51ea700f4d051158f&yid=b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c$LR•IPV4•4『线路1』
 CCTV-4K,http://198.204.240.250:82/live/cctv4k.m3u8$LR•IPV4•4『线路2』
 CCTV-4K,http://192.151.150.154/live/cctv4k.m3u8$LR•IPV4•4『线路3』
 CCTV-4K,http://173.208.212.130:8181/720p/cctv4k.m3u8$LR•IPV4•4『线路4』
@@ -1759,7 +1759,7 @@ XXXXXXXXX粤,http://lxajh.top/tv/douyu.php?id=8912325$LR•IPV4
 航拍中国第二季,http://newcntv.qcloudcdn.com/asp/hls/4000/0303000a/3/default/2bdfdad540b342f592f9817cb7f3b79a/4000.m3u8$LR•IPV4
 地理中国,http://newcntv.qcloudcdn.com/asp/hls/1200/0303000a/3/default/c6baf6f74bb944aeacee1065ea72c798/1200.m3u8$LR•IPV4
 纪录,https://v4-702cae17a28d6e4f0c0002bba021d934.livehwc4.com/play.kankanlive.com/live/1698423397390920.m3u8?sub_m3u8=true&edge_slice=true&user_session_id=23a7e00f724c76bb4b350e07aff59e35$LR•IPV4•43『线路1』
-纪录,https://v4-e6b1c5baf4e240fe63adbf68dda23435.livehwc4.com/play.kankanlive.com/live/1698423397390920.m3u8?sub_m3u8=true&edge_slice=true&user_session_id=9661b6682e4c265b6439ef776fd315f1$LR•IPV4•43『线路2』
+纪录,https://v4-702cae17a28d6e4f0c0002bba021d934.livehwc4.com/play.kankanlive.com/live/1698423397390920.m3u8?sub_m3u8=true&edge_slice=true&user_session_id=687d51dde17b4d95c1697fff079bf890$LR•IPV4•43『线路2』
 纪录,http://free.cnlive.club/channel/n3f497a4c/index.m3u8?q=1752629214236$LR•IPV4•43『线路3』
 纪录,http://free.cnlive.club/channel/2ae73b1a/index.m3u8?q=1752629214236$LR•IPV4•43『线路4』
 纪录,http://free.cnlive.club/channel/nb957a7c/index.m3u8?q=1752629214236$LR•IPV4•43『线路5』
@@ -2155,9 +2155,9 @@ CCTV,https://piccpndks.v.kcdnvip.com/audio/cctv6_2/index.m3u8$LR•IPV4•233『
 CCTV,https://epg.pw/stream/ca9c1cd4b97fb824cedd7fedfd0c7a950afdd7f00751cfbb7c2d89831d7746a5.m3u8$LR•IPV4•233『线路58』
 CCTV,https://epg.pw/stream/6d7bf281e3d739806a73f5373acaa6e01988ec9739f5ac1355ce54b47a928472.m3u8$LR•IPV4•233『线路59』
 CCTV,https://epg.pw/stream/ac8062ec9484078061d3bef507c15a423ac57ae4144e3fcc4b0a198dd420f911.m3u8$LR•IPV4•233『线路60』
-CCTV,http://183.196.25.171:808/hls/77/index.m3u8$LR•IPV4•233『线路61』
-CCTV,http://183.196.25.171:808/hls/11/index.m3u8$LR•IPV4•233『线路62』
-CCTV,https://piccpndks.v.kcdnvip.com/audio/cctv16_2/index.m3u8$LR•IPV4•233『线路63』
+CCTV,https://live-play-hls.cctvnews.cctv.com/CCTVChannel/channel_cctv4_mbd.m3u8?auth_key=1783447200-1-b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c-285e7caefbcb1c7296a83cbfc82a5fdb&yid=b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c$LR•IPV4•233『线路61』
+CCTV,http://183.196.25.171:808/hls/77/index.m3u8$LR•IPV4•233『线路62』
+CCTV,http://183.196.25.171:808/hls/11/index.m3u8$LR•IPV4•233『线路63』
 CCTV,http://183.196.25.171:808/hls/93/index.m3u8$LR•IPV4•233『线路64』
 CCTV,https://live-play-hls.cctvnews.cctv.com/CCTVChannel/channel_cctv4_mbd.m3u8?auth_key=1783407600-1-b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c-f94cf8673b668ccd2a98556470f02507&yid=b59134a2ead43d7f783f943c8f535e7bb80c5169575b2e8efcd5b3ddea21b41c$LR•IPV4•233『线路65』
 CCTV,http://38.75.136.137:98/gslb/dsdqpub/wsjk.m3u8?auth=testpub$LR•IPV4•233『线路66』
