@@ -15,9 +15,9 @@ SETTINGS_FILE = "py/config/settings.conf"     # 输出配置文件路径
 
 EPG_URL = ""          # 写入 M3U 头部 x-tvg-url
 LOGO_BASE = ""   # Logo 基础地址，最终为 BASE + 净化名 + .png
-ENABLE_EPG = True                             # 是否写入 x-tvg-url
-ENABLE_LOGO = True                            # 是否写入 tvg-logo
-SANITIZE_DISPLAY = False                      # 是否用净化名替换可见频道名(默认保留模板名)
+ENABLE_EPG = False                             # 是否写入 x-tvg-url
+ENABLE_LOGO = False                            # 是否写入 tvg-logo
+SANITIZE_DISPLAY = True                      # 是否用净化名替换可见频道名(默认保留模板名)
 # 新增功能: 是否额外生成一份"模板外可自动归类频道"的补充播放列表
 ENABLE_AUTOGROUP_EXTRA = True
 
